@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: npm install --no-audit --no-fund --no-
+        run: npm ci
       - name: Lint
         run: npm run eslint
       - name: Build
@@ -29,3 +29,10 @@ jobs:
           command: npm run test-e2e
           start: npm run start-test
           wait-on: http://localhost:5000
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.13.15 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP}} #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: true
